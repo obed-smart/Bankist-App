@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" type="image/png" href="./image/logo.png" />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./src/output.css" />
+    <title>Bankist</title>
+  </head>
+  <body class="bg-[#f3f3f3] h-screen font-display p-4 lg:p-8 text-[#444]">
+    <!-- TOP NAVIGATION -->
+    <nav class="flex select-none justify-between  items-center">
+      <div class="flex items-center justify-between max-md:w-full">
+        <p class="text-xl font-medium">Log in to get started</p>
+        <button id="menu-btn" class="hidden max-md:block">
+          <ion-icon name="menu-outline" class="menu-icon text-xl"></ion-icon>
+          <ion-icon
+            name="close-outline"
+            class="menu-icon text-xl hidden"
+          ></ion-icon>
+        </button>
+      </div>
+      <img src="./image/logo.png" alt="Logo" class="w-16 max-md:hidden" />
+      <form class="flex items-center max-md:hidden">
+        <input
+          type=""
+          placeholder="user"
+          class="bg-white placeholder:text-[#bbb] w-[10rem] rounded-4xl border-0 transition-all duration-300 px-8 text-center text-inherit py-2 focus:outline-0 mr-3 focus:ring-1 focus:ring-[#ccc]"
+        /> 
+        <!-- In practice, use type="password" -->
+       <input
+          type="text"
+          placeholder="PIN"
+          maxlength="4"
+          class="bg-white w-[10rem] placeholder:text-[#bbb] rounded-4xl border-0 transition-all duration-300 px-8 text-center text-inherit py-2 focus:outline-0 focus:ring-1 focus:ring-[#ccc]"
+        />
+        <button
+          class="ml-5 transition-all duration-300 focus:outline-0 focus:text-[#777] hover:text-[#777] cursor-pointer text-2xl font-bold"
+        >
+          &rarr;
+        </button>
+      </form>
+    </nav>
+
+    <main class="w-full max-w-[1100px] mx-auto mt-10 pb-10">
+      <!-- BALANCE -->
+      <div
+        class="flex justify-between max-md:p-4 max-md:rounded-2xl balance max-md:flex-col max-md:items-start items-center mb-8"
+      >
+        <div class="mb-1">
+          <p
+            class="text-2xl text-[#888] max-md:font-normal max-md:text-[14px] font-medium"
+          >
+            Current balance
+          </p>
+          <p class="text-[#888] text-[1.2rem] max-md:hidden">
+            As of <span class="text-xl">05/03/2037</span>
+          </p>
+        </div>
+        <div class="space-y-1">
+          <p class="text-5xl tracking-wider max-md:font-medium max-md:text-2xl">
+            258690€
+          </p>
+
+          <p
+            class="text-[#888] text-[1.2rem] max-md:text-[1rem] hidden max-md:block"
+          >
+            As of <span class="text-xl max-md:text-[14px]">05/03/2037</span>
+          </p>
+        </div>
+      </div>
+
+      <section
+        class="flex max-lg:flex-col-reverse justify-between lg:h-[488px] items-center gap-8 text-[#333] w-full"
+      >
+        <!-- MOVEMENTS -->
+
+        <article
+          class="bg-[#fff] flex-1 max-lg:w-full MOVEMENTS h-full rounded-2xl overflow-y-auto overflow-x-hidden"
+        >
+          <div
+            class="flex px-8 max-md:px-4 max-md:text-[14px] py-6 items-center justify-between border-b-[2px] border-b-[#eee]"
+          >
+            <div
+              class="uppercase bg-linear-[to_top_left,#39b385,#9be15d] px-4 py-1 text-[#fff] rounded-full font-medium"
+            >
+              2 deposit
+            </div>
+            <div class="text-[#666]">3 days ago</div>
+            <div class="movements__value">4 000€</div>
+          </div>
+
+          <div
+            class="flex px-8 max-md:px-4 max-md:text-[14px] py-6 items-center justify-between border-b-[2px] border-b-[#eee]"
+          >
+            <div
+              class="uppercase font-medium bg-linear-[to_top_left,#e52a5a,#ff585f] px-4 max-md:px-2 py-1 text-[#fff] rounded-full"
+            >
+              1 withdrawal
+            </div>
+            <div class="movements__date">24/01/2037</div>
+            <div class="movements__value">-378€</div>
+          </div>
+        </article>
+
+        <section
+          class="text-[#333] lg:w-[27rem] [&_*_input]:border-0 [&_*_input]:focus:outline-0 [&_*_input]:focus:bg-[rgba(255,255,255,0.6)] [&_*_input]lg:w-[8rem] [&_*_input]:w-full [&_*_input]:py-1 [&_*_input]:text-center [&_*_input]:bg-[rgba(255,255,255,0.4)] [&_*_input]:px-3 [&_*_input]:rounded-xl [&_*_label]:max-md:text-start [&_*_label]:text-center [&_*_label]:text-sm [&_*_input]:transition-all [&_*_input]:duration-300 space-y-5 max-lg:w-full"
+        >
+          <!-- OPERATION: TRANSFERS -->
+          <article
+            class="operation max-md:px-5 bg-linear-[to_top_left,#ffb003,#ffcb03] rounded-3xl py-6 px-12"
+          >
+            <h2 class="text-xl font-medium mb-4">Transfer money</h2>
+            <form class="space-x-3 max-md:flex-col space-y-4 flex items-start">
+              <div
+                class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
+              >
+                <label class="form__label">Transfer to</label>
+                <input type="text" class="  " />
+              </div>
+              <div
+                class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
+              >
+                <label for="amount" class="form__label">Amount</label>
+                <input
+                  id="amount"
+                  min="0"
+                  type="number"
+                  class="bg-[rgba(255,255,255,0.4)] placeholder:text-[#bbb] border-0 focus:outline-0 focus:bg-[rgba(255,255,255,0.6)]"
+                />
+              </div>
+              <button
+                class="bg-[#fff] text-2xl rounded-xl border-0 px-5 cursor-pointer transition-all divide-fuchsia-300 focus:bg-[rgba(255,255,255,0.8)] max-md:w-full"
+              >
+                &rarr;
+              </button>
+            </form>
+          </article>
+
+          <!-- OPERATION: LOAN -->
+          <article
+            class="operation max-md:px-5 rounded-3xl py-6 px-12 bg-linear-[to_top_left,#39b385,#9be15d]"
+          >
+            <h2 class="text-xl font-medium mb-4">Request loan</h2>
+            <form
+              class="space-x-3 max-md:space-y-5 flex max-md:flex-col items-start"
+            >
+              <div
+                class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
+              >
+                <label for="loan" class="w-full">Amount</label>
+                <input
+                  id="loan"
+                  type="number"
+                  class="form__input form__input--loan-amount"
+                />
+              </div>
+
+              <button
+                class="bg-[#fff] text-2xl rounded-xl border-0 px-5 cursor-pointer transition-all divide-fuchsia-300 focus:bg-[rgba(255,255,255,0.8)] max-md:w-full"
+              >
+                &rarr;
+              </button>
+            </form>
+          </article>
+
+          <!-- OPERATION: CLOSE -->
+
+          <article
+            class="operation max-md:px-5 bg-linear-[to_top_left,#e52a5a,#ff585f] rounded-3xl py-6 px-12"
+          >
+            <h2 class="text-xl font-medium mb-4">Close account</h2>
+            <form class="space-x-3 flex max-md:flex-col space-y-5 items-start">
+              <div
+                class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
+              >
+                <label class="form__label">Confirm user</label>
+                <input type="text" class="  " />
+              </div>
+              <div
+                class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
+              >
+                <label for="pin" class="form__label">Confirm PIN</label>
+                <input
+                  id="pin"
+                  min="0"
+                  type="number"
+                  class="bg-[rgba(255,255,255,0.4)] placeholder:text-[#bbb] border-0 focus:outline-0 focus:bg-[rgba(255,255,255,0.6)] w-[10rem]"
+                />
+              </div>
+              <button
+                class="bg-[#fff] text-2xl rounded-xl border-0 px-5 cursor-pointer transition-all divide-fuchsia-300 focus:bg-[rgba(255,255,255,0.8)] max-md:w-full"
+              >
+                &rarr;
+              </button>
+            </form>
+          </article>
+        </section>
+      </section>
+
+      <!-- <section class="flex justify-between w-full mt-10">
+        SUMMARY
+        <div class="flex items-center gap-10">
+          <p class="space-x-1">
+            <span class="text-[1rem] uppercase font-semibold"> In</span>
+            <span class="text-2xl text-[#66c873] tracking-wider">18272€</span>
+          </p>
+
+          <p class="space-x-1">
+            <span class="text-[1rem] uppercase font-semibold">Out</span>
+            <span class="text-2xl text-[#f5465d] tracking-widest">273839€</span>
+          </p>
+
+          <p class="space-x-1">
+            <span class="text-[1rem] uppercase font-semibold">Interest</span>
+            <span class="text-2xl text-[#66c873] tracking-wider">272829€</span>
+          </p>
+
+          <button class="cursor-pointer">&downarrow;SORT</button>
+        </div>
+
+        LOGOUT TIMER
+        <p class="logout-timer">
+          You will be logged out in <span class="timer">05:00</span>
+        </p>
+      </section> -->
+    </main>
+
+    <!-- <footer>
+      &copy; by Jonas Schmedtmann. Don't claim as your own :)
+    </footer> -->
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
