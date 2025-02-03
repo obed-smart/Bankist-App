@@ -14,13 +14,11 @@
     <link rel="stylesheet" href="./src/output.css" />
     <title>Bankist</title>
   </head>
-  <body
-    class="bg-[#f3f3f3] islogin h-screen group font-display p-4 lg:p-8 text-[#444]"
-  >
+  <body class="bg-[#f3f3f3] h-screen group font-display p-4 lg:p-8 text-[#444]">
     <!-- TOP NAVIGATION -->
     <nav class="flex select-none justify-between items-center">
       <div class="flex items-center justify-between max-md:w-full">
-        <p class="text-xl font-medium">Log in to get started</p>
+        <p id="logo-text" class="text-xl font-medium">Log in to get started</p>
 
         <img
           src="./image/logo.png"
@@ -40,19 +38,19 @@
           LogOut
         </button>
         <form
-          class="flex items-center group-[&:where(.islogin)]:hidden max-md:hidden"
+          class="login-form flex items-center group-[&:where(.islogin)]:hidden max-md:hidden"
         >
           <input
             type=""
             placeholder="user"
-            class="bg-white placeholder:text-[#bbb] w-[10rem] rounded-4xl border-0 transition-all duration-300 px-8 text-center text-inherit py-2 focus:outline-0 mr-3 focus:ring-1 focus:ring-[#ccc]"
+            class="bg-white user-name placeholder:text-[#bbb] w-[10rem] rounded-4xl border-0 transition-all duration-300 px-8 text-center text-inherit py-2 focus:outline-0 mr-3 focus:ring-1 focus:ring-[#ccc]"
           />
           <!-- In practice, use type="password" -->
           <input
             type="password"
             placeholder="PIN"
             maxlength="4"
-            class="bg-white w-[10rem] placeholder:text-[#bbb] rounded-4xl border-0 transition-all duration-300 px-8 text-center text-inherit py-2 focus:outline-0 focus:ring-1 focus:ring-[#ccc]"
+            class="bg-white user-password w-[10rem] placeholder:text-[#bbb] rounded-4xl border-0 transition-all duration-300 px-8 text-center text-inherit py-2 focus:outline-0 focus:ring-1 focus:ring-[#ccc]"
           />
           <button
             class="ml-5 transition-all duration-300 focus:outline-0 focus:text-[#777] hover:text-[#777] cursor-pointer text-2xl font-bold"
@@ -64,19 +62,19 @@
     </nav>
 
     <form
-      class="flex flex-col md:hidden justify-center mt-20 items-center group-[&:where(.islogin)]:max-md:hidden"
+      class="flex flex-col login-form md:hidden justify-center mt-20 items-center group-[&:where(.islogin)]:max-md:hidden"
     >
       <input
         type=""
         placeholder="user"
-        class="bg-white w-[calc(100%-100px)] mb-6 placeholder:text-[#bbb] rounded-xl border-0 transition-all duration-300 px-8 text-center text-inherit py-2 focus:outline-0 focus:ring-1 focus:ring-[#ccc]"
+        class="bg-white user-name w-[calc(100%-100px)] mb-6 placeholder:text-[#bbb] rounded-xl border-0 transition-all duration-300 px-8 text-center text-inherit py-2 focus:outline-0 focus:ring-1 focus:ring-[#ccc]"
       />
       <!-- In practice, use type="password" -->
       <input
-        type="text"
+        type="password"
         placeholder="PIN"
         maxlength="4"
-        class="bg-white w-[calc(100%-100px)] placeholder:text-[#bbb] rounded-xl border-0 transition-all duration-300 px-8 text-center text-inherit py-2 focus:outline-0 focus:ring-1 focus:ring-[#ccc]"
+        class="user-password bg-white w-[calc(100%-100px)] placeholder:text-[#bbb] rounded-xl border-0 transition-all duration-300 px-8 text-center text-inherit py-2 focus:outline-0 focus:ring-1 focus:ring-[#ccc]"
       />
       <button
         class="mt-6 rounded-full transition-all bg-white w-[calc(100%-100px)] duration-300 focus:outline-0 focus:text-[#777] hover:text-[#777] cursor-pointer text-2xl font-bold"
@@ -85,7 +83,7 @@
       </button>
     </form>
     <main
-      class="w-full max-w-[1100px] hidden group-[&:where(.islogin)]:block mx-auto mt-10 pb-10"
+      class="w-full max-w-[1100px] transition-all duration-500 opacity-0 group-[&:where(.islogin)]:opacity-100 mx-auto mt-10 pb-10"
     >
       <!-- BALANCE -->
       <div
@@ -115,16 +113,16 @@
       </div>
 
       <section
-        class="flex max-lg:flex-col-reverse   justify-between lg:h-[488px] items-center gap-8 text-[#333] w-full"
+        class="flex max-lg:flex-col-reverse justify-between lg:h-[488px] items-center gap-8 text-[#333] w-full"
       >
         <!-- MOVEMENTS -->
 
-        <article class="flex-1 h-full max-lg:w-full ">
+        <article class="flex-1 h-full max-lg:w-full">
           <div class="lg:hidden w-full flex justify-between mb-5">
             <p class="font-medium">Recent Transaction</p>
             <button id="open-transaction">
               <ion-icon
-                name="chevron-up-outline"
+                name="chevron-down-outline"
                 class="text-2xl transact-icon transition-all duration-300"
               ></ion-icon>
             </button>
@@ -133,32 +131,9 @@
           <!-- transactions -->
 
           <article
-            class="bg-[#fff] scale-y-0  transition-transform  ease-linear origin-top  MOVEMENTS h-full rounded-2xl overflow-y-auto overflow-x-hidden"
-          >
-            <div
-              class="flex px-8 max-md:px-4 max-md:text-[14px] py-6 items-center justify-between border-b-[2px] border-b-[#eee]"
-            >
-              <div
-                class="uppercase bg-linear-[to_top_left,#39b385,#9be15d] px-4 py-1 text-[#fff] rounded-full font-medium"
-              >
-                2 deposit
-              </div>
-              <div class="text-[#666]">3 days ago</div>
-              <div class="movements__value">4 000€</div>
-            </div>
-
-            <div
-              class="flex px-8 max-md:px-4 max-md:text-[14px] py-6 items-center justify-between border-b-[2px] border-b-[#eee]"
-            >
-              <div
-                class="uppercase font-medium bg-linear-[to_top_left,#e52a5a,#ff585f] px-4 max-md:px-2 py-1 text-[#fff] rounded-full"
-              >
-                1 withdrawal
-              </div>
-              <div class="">24/01/2037</div>
-              <div class="">-378€</div>
-            </div>
-          </article>
+            id="logs"
+            class="bg-[#fff] transition-transform ease-linear origin-top MOVEMENTS h-full rounded-2xl overflow-y-auto overflow-x-hidden"
+          ></article>
         </article>
 
         <section
@@ -256,8 +231,8 @@
         </section>
       </section>
 
-      <!-- <section class="flex justify-between items-center max-lg:flex-col w-full mt-4">
-        SUMMARY
+      <section class="flex justify-between items-center max-lg:flex-col w-full mt-4">
+        <!-- SUMMARY -->
         <div class="flex items-center gap-10">
           <p class="space-x-1">
             <span class="text-[1rem] uppercase font-semibold"> In</span>
@@ -277,11 +252,11 @@
           <button class="cursor-pointer">&downarrow;SORT</button>
         </div>
 
-        LOGOUT TIMER
+        <!-- LOGOUT TIMER -->
         <p class="logout-timer max-lg:self-end">
           You will be logged out in <span class="timer">05:00</span>
         </p>
-      </section> -->
+      </section>
     </main>
 
     <!-- <footer>

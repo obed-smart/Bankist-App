@@ -252,11 +252,11 @@
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
-    --breakpoint-sm: 30rem;
+    --breakpoint-sm: 40rem;
     --breakpoint-md: 48rem;
     --breakpoint-lg: 64rem;
     --breakpoint-xl: 80rem;
-    --breakpoint-2xl: 100rem;
+    --breakpoint-2xl: 96rem;
     --container-3xs: 16rem;
     --container-2xs: 18rem;
     --container-xs: 20rem;
@@ -378,7 +378,6 @@
       --font-mono--font-variation-settings
     );
     --font-display: 'Poppins', 'sans-serif';
-    --breakpoint-3xl: 120rem;
   }
 }
 @layer base {
@@ -663,8 +662,8 @@
   }
   .container {
     width: 100%;
-    @media (width >= 30rem) {
-      max-width: 30rem;
+    @media (width >= 40rem) {
+      max-width: 40rem;
     }
     @media (width >= 48rem) {
       max-width: 48rem;
@@ -675,17 +674,14 @@
     @media (width >= 80rem) {
       max-width: 80rem;
     }
-    @media (width >= 100rem) {
-      max-width: 100rem;
-    }
-    @media (width >= 120rem) {
-      max-width: 120rem;
+    @media (width >= 96rem) {
+      max-width: 96rem;
     }
   }
   .container\! {
     width: 100% !important;
-    @media (width >= 30rem) {
-      max-width: 30rem !important;
+    @media (width >= 40rem) {
+      max-width: 40rem !important;
     }
     @media (width >= 48rem) {
       max-width: 48rem !important;
@@ -696,11 +692,8 @@
     @media (width >= 80rem) {
       max-width: 80rem !important;
     }
-    @media (width >= 100rem) {
-      max-width: 100rem !important;
-    }
-    @media (width >= 120rem) {
-      max-width: 120rem !important;
+    @media (width >= 96rem) {
+      max-width: 96rem !important;
     }
   }
   .mx-auto {
@@ -844,6 +837,9 @@
   .min-h-screen {
     min-height: 100vh;
   }
+  .w-1 {
+    width: calc(var(--spacing) * 1);
+  }
   .w-1\/2 {
     width: calc(1/2 * 100%);
   }
@@ -986,10 +982,6 @@
   .translate-z-px {
     --tw-translate-z: 1px;
     translate: var(--tw-translate-x) var(--tw-translate-y) var(--tw-translate-z);
-  }
-  .scale-y-0 {
-    --tw-scale-y: 0%;
-    scale: var(--tw-scale-x) var(--tw-scale-y);
   }
   .scale-3d {
     scale: var(--tw-scale-x) var(--tw-scale-y) var(--tw-scale-z);
@@ -1506,6 +1498,10 @@
     border-style: var(--tw-border-style);
     border-width: 0px;
   }
+  .border-\[1px\] {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+  }
   .border-x {
     border-inline-style: var(--tw-border-style);
     border-inline-width: 1px;
@@ -1565,6 +1561,9 @@
   .border-solid {
     --tw-border-style: solid;
     border-style: solid;
+  }
+  .border-red-400 {
+    border-color: var(--color-red-400);
   }
   .border-b-\[\#eee\] {
     border-bottom-color: #eee;
@@ -1976,6 +1975,9 @@
   .\[color\:red\]\/50\! {
     color: color-mix(in oklab, red 50%, transparent) !important;
   }
+  .text-\[\#66c873\] {
+    color: #66c873;
+  }
   .text-\[\#333\] {
     color: #333;
   }
@@ -1984,9 +1986,6 @@
   }
   .text-\[\#666\] {
     color: #666;
-  }
-  .text-\[\#66c873\] {
-    color: #66c873;
   }
   .text-\[\#888\] {
     color: #888;
@@ -1997,8 +1996,14 @@
   .text-\[\#fff\] {
     color: #fff;
   }
+  .text-green-500 {
+    color: var(--color-green-500);
+  }
   .text-inherit {
     color: inherit;
+  }
+  .text-red-500 {
+    color: var(--color-red-500);
   }
   .capitalize {
     text-transform: capitalize;
@@ -2144,6 +2149,9 @@
   }
   .scheme-only-light {
     color-scheme: only light;
+  }
+  .opacity-0 {
+    opacity: 0%;
   }
   .mix-blend-plus-darker {
     mix-blend-mode: plus-darker;
@@ -2470,6 +2478,11 @@
       display: none;
     }
   }
+  .group-\[\&\:where\(\.islogin\)\]\:opacity-100 {
+    &:is(:where(.group):where(.islogin) *) {
+      opacity: 100%;
+    }
+  }
   .placeholder\:text-\[\#bbb\] {
     &::placeholder {
       color: #bbb;
@@ -2576,11 +2589,6 @@
   .max-md\:p-4 {
     @media (width < 48rem) {
       padding: calc(var(--spacing) * 4);
-    }
-  }
-  .max-md\:px-2 {
-    @media (width < 48rem) {
-      padding-inline: calc(var(--spacing) * 2);
     }
   }
   .max-md\:px-4 {
@@ -2749,15 +2757,27 @@
   }
   @keyframes scaleUp {
     0% {
+      transform: scaleY(1);
+    }
+    100% {
       transform: scaleY(0);
+      display: none;
+    }
+  }
+  @keyframes scaleDown {
+    0% {
+      transform: scaleY(0);
+      display: block;
     }
     100% {
       transform: scaleY(1);
     }
   }
-  .animate {
-    display: block;
+  .animateUP {
     animation: scaleUp 0.5s ease forwards;
+  }
+  .animateDown {
+    animation: scaleDown 0.5s ease;
   }
 }
 .MOVEMENTS::-webkit-scrollbar {
