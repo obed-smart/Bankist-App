@@ -1,7 +1,7 @@
 'use strict';
 
 const openTransaction = document.getElementById('open-transaction');
-const logINForm = document.querySelectorAll('.login-form');
+const logOutButton = document.getElementById('logout-btn');
 
 // Data
 const account1 = {
@@ -38,8 +38,6 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
-console.log(accounts);
-
 // add event to open and close transactions log
 // change the icon from up to down or vice vacer
 
@@ -69,48 +67,69 @@ openTransaction.addEventListener('click', e => {
   );
 });
 
-// submit the user login details
-
-logINForm.forEach(form => {
-  form.addEventListener('submit', logIN);
-});
-
 /**
  * check for the user and return one if found
  * @returns {object} - the user that matches the inputed name
  */
-function checkUser(e) {
-  return userAccount;
-}
 
 /**
  * login the user if the accout matches
- * @param {form} e - get the form to be submited
  */
-function logIN(e) {
-  e.preventDefault(); // prevent the default form submission
+function logIN() {
+  // Select both login forms
+  const forms = document.querySelectorAll('.login-form');
 
-  // const { userAccount } = checkUser(e);
-  const userName = e.target.querySelector('.user-name'); // get the targeted form username
-  const userKey = e.target.querySelector('.user-password'); // get the targeted form password
-  const wellcomeText = document.getElementById('logo-text');
+  forms.forEach(form => {
+    // Initialize login event listeners
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); // Prevent default form submission
 
-  // find account that matches the userName
-  const userAccount = accounts.find(user => user.owner === userName.value);
-  if (!userAccount) return;
+      const userName = form.querySelector('.user-name'); // Get username input
+      const userKey = form.querySelector('.user-password'); // Get password input
+      const wellcomeText = document.getElementById('logo-text');
 
-  if (userAccount) {
-    //confirm the password
-    if (userAccount.pin === Number(userKey.value)) {
-      displayTransactionLogs(userAccount);
-      wellcomeText.textContent = `wellcome ${userAccount.owner.split(' ')[0]}`;
-      document.body.classList.add('islogin'); // add islogin to the body to login
-    } else {
-      userKey.classList.add('border-[1px]');
-      userKey.classList.add('border-red-400');
-    }
-  }
+      // Find account that matches the userName
+      const userAccount = accounts.find(user => user.owner === userName.value);
+      if (!userAccount) return;
+
+      if (userAccount.pin === Number(userKey.value)) {
+        // Store user in localStorage
+        localStorage.setItem('loggedInUser', JSON.stringify(userAccount));
+
+        displayTransactionLogs(userAccount);
+        wellcomeText.textContent = `Welcome ${userAccount.owner.split(' ')[0]}`;
+        document.body.classList.add('islogin'); // Add class to indicate login
+      } else {
+        userKey.classList.add('border-[1px]', 'border-red-400');
+      }
+    });
+  });
 }
+
+//// Auto-login on reload
+document.addEventListener('DOMContentLoaded', () => {
+  const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+  if (loggedInUser) {
+    displayTransactionLogs(loggedInUser);
+    document.getElementById('logo-text').textContent = `Welcome ${
+      loggedInUser.owner.split(' ')[0]
+    }`;
+    document.body.classList.add('islogin');
+  }
+});
+
+logIN();
+
+// log the user out 
+function logOut() {
+  location.reload();
+  localStorage.removeItem('loggedInUser');
+  setTimeout(() => {
+    document.body.classList.remove('islogin');
+  }, 100);
+}
+
+logOutButton.addEventListener('click', logOut);
 
 /**
  * Display the transaction logs of the user.
