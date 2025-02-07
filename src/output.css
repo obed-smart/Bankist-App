@@ -837,9 +837,6 @@
   .min-h-screen {
     min-height: 100vh;
   }
-  .w-1 {
-    width: calc(var(--spacing) * 1);
-  }
   .w-1\/2 {
     width: calc(1/2 * 100%);
   }
@@ -1975,9 +1972,6 @@
   .\[color\:red\]\/50\! {
     color: color-mix(in oklab, red 50%, transparent) !important;
   }
-  .text-\[\#66c873\] {
-    color: #66c873;
-  }
   .text-\[\#333\] {
     color: #333;
   }
@@ -1986,6 +1980,9 @@
   }
   .text-\[\#666\] {
     color: #666;
+  }
+  .text-\[\#66c873\] {
+    color: #66c873;
   }
   .text-\[\#888\] {
     color: #888;
@@ -2468,11 +2465,6 @@
       display: none;
     }
   }
-  .group-\[\&\:where\(\.islogin\)\]\:block {
-    &:is(:where(.group):where(.islogin) *) {
-      display: block;
-    }
-  }
   .group-\[\&\:where\(\.islogin\)\]\:hidden {
     &:is(:where(.group):where(.islogin) *) {
       display: none;
@@ -2751,7 +2743,7 @@
 }
 @layer utilities {
   @media (max-width: 768px) {
-    .balance {
+    .show-balance {
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     }
   }

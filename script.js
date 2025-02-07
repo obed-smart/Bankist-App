@@ -76,32 +76,11 @@ logINForm.forEach(form => {
 });
 
 /**
- * Display the transaction logs of the user.
- * @param {object} data - The details and transaction history of the user
+ * check for the user and return one if found
+ * @returns {object} - the user that matches the inputed name
  */
-function displayTransactionLogs(data) {
-  const container = document.getElementById('logs');
-  const fragment = document.createDocumentFragment();
-  for (const log of data) {
-    const item = ` <div
-              class="flex px-8 max-md:px-4 max-md:text-[14px] py-6 items-center justify-between border-b-[2px] border-b-[#eee]"
-            >
-              <div
-                class="uppercase  ${
-                  log > 0
-                    ? 'bg-linear-[to_top_left,#39b385,#9be15d]'
-                    : 'bg-linear-[to_top_left,#e52a5a,#ff585f]'
-                } px-4 py-1 text-[#fff] rounded-full font-medium"
-              >
-                ${log > 0 ? '2 deposit' : '1 withdrawal'}
-              </div>
-              <div class="text-[#666]">3 days ago</div>
-              <div class=" font-medium ${
-                log > 0 ? 'text-green-500' : 'text-red-500'
-              } ">${log}€</div>
-            </div>`;
-    container.insertAdjacentHTML("afterbegin" , item)
-  }
+function checkUser(e) {
+  return userAccount;
 }
 
 /**
@@ -111,6 +90,7 @@ function displayTransactionLogs(data) {
 function logIN(e) {
   e.preventDefault(); // prevent the default form submission
 
+  // const { userAccount } = checkUser(e);
   const userName = e.target.querySelector('.user-name'); // get the targeted form username
   const userKey = e.target.querySelector('.user-password'); // get the targeted form password
   const wellcomeText = document.getElementById('logo-text');
@@ -122,12 +102,100 @@ function logIN(e) {
   if (userAccount) {
     //confirm the password
     if (userAccount.pin === Number(userKey.value)) {
-      displayTransactionLogs(userAccount.movements);
+      displayTransactionLogs(userAccount);
       wellcomeText.textContent = `wellcome ${userAccount.owner.split(' ')[0]}`;
-      document.body.classList.add('islogin');
+      document.body.classList.add('islogin'); // add islogin to the body to login
     } else {
       userKey.classList.add('border-[1px]');
       userKey.classList.add('border-red-400');
     }
   }
+}
+
+/**
+ * Display the transaction logs of the user.
+ * @param {object} data - The details and transaction history of the user
+ */
+function displayTransactionLogs(account) {
+  const container = document.getElementById('logs');
+
+  container.innerHTML = '';
+  const { movements } = account;
+  // console.log(data);
+  const fragment = document.createDocumentFragment();
+  for (const [i, log] of movements.entries()) {
+    const item = ` <div
+              class="flex px-8 max-md:px-4 max-md:text-[14px] py-6 items-center justify-between border-b-[2px] border-b-[#eee]"
+            >
+              <div
+                class="uppercase  ${
+                  log > 0
+                    ? 'bg-linear-[to_top_left,#39b385,#9be15d]'
+                    : 'bg-linear-[to_top_left,#e52a5a,#ff585f]'
+                } px-4 py-1 text-[#fff] rounded-full font-medium"
+              >
+                ${log > 0 ? `${i + 1} deposit` : `${i + 1} withdrawal`}
+              </div>
+              <div class="text-[#666]">3 days ago</div>
+              <div class=" font-medium ${
+                log > 0 ? 'text-green-500' : 'text-red-500'
+              } ">${log}€</div>
+            </div>`;
+    container.insertAdjacentHTML('afterbegin', item);
+  }
+
+  calcDisplaybalance(movements);
+  calcDisplaySummary(account);
+}
+
+function calcDisplaybalance(movements) {
+  const balace = document.querySelector('.balance');
+  const calcBalance = movements.reduce((arr, cur) => arr + cur, 0);
+  balace.textContent = `${calcBalance}$`;
+}
+
+/**
+ * function to update the money IN , money OUT and the INTEREST and sort the transaction log
+ * @param {object} account - the user account
+ */
+function calcDisplaySummary(account) {
+  let { movements, interestRate } = account; // get the transaction and interestRate of the user account
+  const originalMove = [...movements]; // create another copy of the transaction login
+  let isSorted = false;
+
+  const moneyIn = document.querySelector('.fund-in');
+  const moneyOut = document.querySelector('.fund-out');
+  const interest = document.querySelector('.fund-interest');
+  const sortBtn = document.querySelector('.sort-btn');
+
+  // deposited money
+  const deposit = movements
+    .filter(num => num > 0, 0)
+    .reduce((total, num) => total + num, 0);
+
+  // withdrawed money
+  const withdrawal = movements
+    .filter(num => num < 0, 0)
+    .reduce((total, num) => total + num, 0);
+
+  //interest rate
+  const interestRates = movements
+    .map(mov => mov * interestRate)
+    .reduce((total, num) => num + total, 0);
+
+  moneyIn.textContent = `${deposit}€`;
+  moneyOut.textContent = `${withdrawal}€`;
+  interest.textContent = `${interestRates}€`;
+
+  // sort the transaction log
+  sortBtn.addEventListener('click', () => {
+    if (!isSorted) {
+      movements.sort();
+    } else {
+      movements = [...originalMove];
+    }
+
+    isSorted = !isSorted;
+    displayTransactionLogs(account);
+  });
 }

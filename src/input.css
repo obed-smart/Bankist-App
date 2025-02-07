@@ -6,7 +6,7 @@
 
 @layer utilities {
   @media (max-width: 768px) {
-    .balance {
+    .show-balance {
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     }
   }
@@ -20,7 +20,7 @@
       display: none;
     }
   }
-  
+
   @keyframes scaleDown {
     0% {
       transform: scaleY(0);
@@ -32,7 +32,6 @@
   }
 
   .animateUP {
-   
     animation: scaleUp 0.5s ease forwards;
   }
   .animateDown {

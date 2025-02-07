@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="./src/output.css" />
     <title>Bankist</title>
   </head>
-  <body class="bg-[#f3f3f3] h-screen group font-display p-4 lg:p-8 text-[#444]">
+  <body class="bg-[#f3f3f3]  h-screen group font-display p-4 lg:p-8 text-[#444]">
     <!-- TOP NAVIGATION -->
     <nav class="flex select-none justify-between items-center">
       <div class="flex items-center justify-between max-md:w-full">
@@ -87,7 +87,7 @@
     >
       <!-- BALANCE -->
       <div
-        class="flex justify-between max-md:p-4 max-md:rounded-2xl balance max-md:flex-col max-md:items-start items-center mb-8"
+        class="flex justify-between max-md:p-4 max-md:rounded-2xl show-balance max-md:flex-col max-md:items-start items-center mb-8"
       >
         <div class="mb-1">
           <p
@@ -100,8 +100,8 @@
           </p>
         </div>
         <div class="space-y-1">
-          <p class="text-5xl tracking-wider max-md:font-medium max-md:text-2xl">
-            258690€
+          <p class="text-5xl balance tracking-wider max-md:font-medium max-md:text-2xl">
+           
           </p>
 
           <p
@@ -236,20 +236,20 @@
         <div class="flex items-center gap-10">
           <p class="space-x-1">
             <span class="text-[1rem] uppercase font-semibold"> In</span>
-            <span class="text-2xl text-[#66c873] tracking-wider">18272€</span>
+            <span class="text-2xl fund-in text-[#66c873] tracking-wider"></span>
           </p>
 
           <p class="space-x-1">
             <span class="text-[1rem] uppercase font-semibold">Out</span>
-            <span class="text-2xl text-[#f5465d] tracking-widest">273839€</span>
+            <span class="text-2xl text-[#f5465d] fund-out tracking-widest"></span>
           </p>
 
           <p class="space-x-1">
             <span class="text-[1rem] uppercase font-semibold">Interest</span>
-            <span class="text-2xl text-[#66c873] tracking-wider">272829€</span>
+            <span class="text-2xl text-[#66c873] fund-interest tracking-wider"></span>
           </p>
 
-          <button class="cursor-pointer">&downarrow;SORT</button>
+          <button class="cursor-pointer sort-btn">&downarrow;SORT</button>
         </div>
 
         <!-- LOGOUT TIMER -->
