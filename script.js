@@ -5,7 +5,7 @@ const logOutButton = document.getElementById('logout-btn');
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'js',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2,
   pin: 1111,
@@ -13,7 +13,7 @@ const account1 = {
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: 'jd',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
@@ -72,13 +72,13 @@ openTransaction.addEventListener('click', e => {
  * @returns {object} - the user that matches the inputed name
  */
 
+let currentUserAccount; //declearing the current user account
 /**
  * login the user if the accout matches
  */
 function logIN() {
   // Select both login forms
   const forms = document.querySelectorAll('.login-form');
-
   forms.forEach(form => {
     // Initialize login event listeners
     form.addEventListener('submit', function (e) {
@@ -89,15 +89,21 @@ function logIN() {
       const wellcomeText = document.getElementById('logo-text');
 
       // Find account that matches the userName
-      const userAccount = accounts.find(user => user.owner === userName.value);
-      if (!userAccount) return;
+      currentUserAccount = accounts.find(user => user.owner === userName.value);
+      if (!currentUserAccount) return;
+      calcDisplaybalance(currentUserAccount);
 
-      if (userAccount.pin === Number(userKey.value)) {
+      if (currentUserAccount?.pin === Number(userKey.value)) {
         // Store user in localStorage
-        localStorage.setItem('loggedInUser', JSON.stringify(userAccount));
+        localStorage.setItem(
+          'loggedInUser',
+          JSON.stringify(currentUserAccount)
+        );
 
-        displayTransactionLogs(userAccount);
-        wellcomeText.textContent = `Welcome ${userAccount.owner.split(' ')[0]}`;
+        displayTransactionLogs(currentUserAccount);
+        wellcomeText.textContent = `Welcome ${
+          currentUserAccount.owner.split(' ')[0]
+        }`;
         document.body.classList.add('islogin'); // Add class to indicate login
       } else {
         userKey.classList.add('border-[1px]', 'border-red-400');
@@ -120,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 logIN();
 
-// log the user out 
+// log the user out
 function logOut() {
   location.reload();
   localStorage.removeItem('loggedInUser');
@@ -133,14 +139,13 @@ logOutButton.addEventListener('click', logOut);
 
 /**
  * Display the transaction logs of the user.
- * @param {object} data - The details and transaction history of the user
+ * @param {object} account - The details of the user
  */
 function displayTransactionLogs(account) {
   const container = document.getElementById('logs');
-
   container.innerHTML = '';
   const { movements } = account;
-  // console.log(data);
+
   const fragment = document.createDocumentFragment();
   for (const [i, log] of movements.entries()) {
     const item = ` <div
@@ -163,14 +168,15 @@ function displayTransactionLogs(account) {
     container.insertAdjacentHTML('afterbegin', item);
   }
 
-  calcDisplaybalance(movements);
+  calcDisplaybalance(account);
   calcDisplaySummary(account);
 }
 
-function calcDisplaybalance(movements) {
+function calcDisplaybalance(account) {
+  const { movements } = account;
   const balace = document.querySelector('.balance');
-  const calcBalance = movements.reduce((arr, cur) => arr + cur, 0);
-  balace.textContent = `${calcBalance}$`;
+  account.balace = movements.reduce((arr, cur) => arr + cur, 0);
+  balace.textContent = `${account.balace}$`;
 }
 
 /**
@@ -189,7 +195,7 @@ function calcDisplaySummary(account) {
 
   // deposited money
   const deposit = movements
-    .filter(num => num > 0, 0)
+    .filter(num => num > 0)
     .reduce((total, num) => total + num, 0);
 
   // withdrawed money
@@ -199,12 +205,13 @@ function calcDisplaySummary(account) {
 
   //interest rate
   const interestRates = movements
-    .map(mov => mov * interestRate)
-    .reduce((total, num) => num + total, 0);
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * (interestRate / 100))
+    .reduce((total, int) => total + int, 0);
 
   moneyIn.textContent = `${deposit}€`;
-  moneyOut.textContent = `${withdrawal}€`;
-  interest.textContent = `${interestRates}€`;
+  moneyOut.textContent = `${Math.abs(withdrawal)}€`;
+  interest.textContent = `${interestRates.toFixed(2)}€`;
 
   // sort the transaction log
   sortBtn.addEventListener('click', () => {
@@ -218,3 +225,37 @@ function calcDisplaySummary(account) {
     displayTransactionLogs(account);
   });
 }
+
+/**
+ * transfer money to the chosen user
+ */
+
+
+  const transferForm = document.querySelector('.transfer');
+  const inputUserName = transferForm.querySelector('.user-name');
+  const inputAmout = transferForm.querySelector('.amount');
+
+  transferForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const amount = Number(inputAmout.value);
+    const reciversAcc = accounts.find(
+      user => user.owner === inputUserName.value
+    );
+
+    currentUserAccount = JSON.parse(localStorage.getItem('loggedInUser'));
+
+    inputAmout.value = inputUserName.value = '';
+    console.log(currentUserAccount);
+
+    if (
+      amount > 0 &&
+      amount <= currentUserAccount.balace &&
+      reciversAcc?.owner !== currentUserAccount.owner
+    ) {
+      console.log('valid transaction');
+      console.log(amount);
+    }
+  });
+
+
+// transferFund();

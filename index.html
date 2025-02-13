@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="./src/output.css" />
     <title>Bankist</title>
   </head>
-  <body class="bg-[#f3f3f3]  h-screen group font-display p-4 lg:p-8 text-[#444]">
+  <body class="bg-[#f3f3f3] h-screen group font-display p-4 lg:p-8 text-[#444]">
     <!-- TOP NAVIGATION -->
     <nav class="flex select-none justify-between items-center">
       <div class="flex items-center justify-between max-md:w-full">
@@ -32,7 +32,8 @@
         class="w-16 max-md:hidden group-[&:where(.islogin)]:max-md:hidden"
       />
       <div>
-        <button id="logout-btn"
+        <button
+          id="logout-btn"
           class="group-[&:not(.islogin)]:hidden animate-bounce focus:outline-0 cursor-pointer"
         >
           LogOut
@@ -83,7 +84,7 @@
       </button>
     </form>
     <main
-      class="w-full max-w-[1100px]  opacity-0 group-[&:where(.islogin)]:opacity-100 mx-auto mt-10 pb-10"
+      class="w-full max-w-[1100px] opacity-0 group-[&:where(.islogin)]:opacity-100 mx-auto mt-10 pb-10"
     >
       <!-- BALANCE -->
       <div
@@ -100,9 +101,9 @@
           </p>
         </div>
         <div class="space-y-1">
-          <p class="text-5xl balance tracking-wider max-md:font-medium max-md:text-2xl">
-           
-          </p>
+          <p
+            class="text-5xl balance tracking-wider max-md:font-medium max-md:text-2xl"
+          ></p>
 
           <p
             class="text-[#888] text-[1.2rem] max-md:text-[1rem] hidden max-md:block"
@@ -144,22 +145,21 @@
             class="operation max-md:px-5 bg-linear-[to_top_left,#ffb003,#ffcb03] rounded-3xl py-4 px-12"
           >
             <h2 class="text-xl font-medium mb-4">Transfer money</h2>
-            <form class="space-x-3 max-md:flex-col space-y-4 flex items-start">
+            <form class="space-x-3 transfer max-md:flex-col space-y-4 flex items-start">
               <div
                 class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
               >
                 <label class="form__label">Transfer to</label>
-                <input type="text" class="  " />
+                <input type="text" class="user-name" />
               </div>
               <div
                 class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
               >
                 <label for="amount" class="form__label">Amount</label>
                 <input
-                  id="amount"
                   min="0"
                   type="number"
-                  class="bg-[rgba(255,255,255,0.4)] placeholder:text-[#bbb] border-0 focus:outline-0 focus:bg-[rgba(255,255,255,0.6)]"
+                  class="amount bg-[rgba(255,255,255,0.4)] placeholder:text-[#bbb] border-0 focus:outline-0 focus:bg-[rgba(255,255,255,0.6)]"
                 />
               </div>
               <button
@@ -231,29 +231,41 @@
         </section>
       </section>
 
-      <section class="flex justify-between items-center max-lg:flex-col w-full mt-4">
+      <section class="flex justify-between max-lg:flex-col w-full mt-4">
         <!-- SUMMARY -->
-        <div class="flex items-center gap-10">
-          <p class="space-x-1">
-            <span class="text-[1rem] uppercase font-semibold"> In</span>
-            <span class="text-2xl fund-in text-[#66c873] tracking-wider"></span>
-          </p>
+        <div
+          class="flex items-center  border-2  max-md:flex-col-reverse md:flex-row md:gap-10"
+        >
+          <div class="flex items-center  max-md:space-x-14 w-full md:gap-12">
+            <p class="space-x-1">
+              <span class="text-[1rem] uppercase font-semibold"> In</span>
+              <span
+                class="text-xl md:text-2xl fund-in text-[#66c873] tracking-wider"
+              ></span>
+            </p>
 
-          <p class="space-x-1">
-            <span class="text-[1rem] uppercase font-semibold">Out</span>
-            <span class="text-2xl text-[#f5465d] fund-out tracking-widest"></span>
-          </p>
+            <p class="space-x-1">
+              <span class="text-[1rem] uppercase font-semibold">Out</span>
+              <span
+                class="text-xl md:text-2xl text-[#f5465d] fund-out tracking-widest"
+              ></span>
+            </p>
 
-          <p class="space-x-1">
-            <span class="text-[1rem] uppercase font-semibold">Interest</span>
-            <span class="text-2xl text-[#66c873] fund-interest tracking-wider"></span>
-          </p>
+            <p class="space-x-1">
+              <span class="text-[1rem] uppercase font-semibold">Interest</span>
+              <span
+                class="text-xl md:text-2xl text-[#66c873] fund-interest tracking-wider"
+              ></span>
+            </p>
+          </div>
 
-          <button class="cursor-pointer sort-btn">&downarrow;SORT</button>
+          <button class="cursor-pointer md:self-end mb-7 sort-btn">
+            &downarrow;SORT
+          </button>
         </div>
 
         <!-- LOGOUT TIMER -->
-        <p class="logout-timer max-lg:self-end">
+        <p class="logout-timer max-lg:self-end mt-6">
           You will be logged out in <span class="timer">05:00</span>
         </p>
       </section>
