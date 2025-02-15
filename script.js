@@ -1,7 +1,12 @@
 'use strict';
 
+const loginForms = document.querySelectorAll('.login-form');
+const wellcomeText = document.getElementById('logo-text');
 const openTransaction = document.getElementById('open-transaction');
 const logOutButton = document.getElementById('logout-btn');
+const transferForm = document.querySelector('.transfer');
+const closeAccountForm = document.querySelector('.close-account');
+const loanMoneyForm = document.querySelector('.loan-money');
 
 // Data
 const account1 = {
@@ -73,50 +78,42 @@ openTransaction.addEventListener('click', e => {
  */
 
 let currentUserAccount; //declearing the current user account
+
 /**
  * login the user if the accout matches
+ * @param {event} e - the form to be submitted
  */
-function logIN() {
-  // Select both login forms
-  const forms = document.querySelectorAll('.login-form');
-  forms.forEach(form => {
-    // Initialize login event listeners
-    form.addEventListener('submit', function (e) {
-      e.preventDefault(); // Prevent default form submission
+function logIN(e) {
+  e.preventDefault(); // Prevent default form submission
 
-      const userName = form.querySelector('.user-name'); // Get username input
-      const userKey = form.querySelector('.user-password'); // Get password input
-      const wellcomeText = document.getElementById('logo-text');
+  const userName = e.target.querySelector('.user-name'); // Get username input
+  const userKey = e.target.querySelector('.user-password'); // Get password input
 
-      // Find account that matches the userName
-      currentUserAccount = accounts.find(user => user.owner === userName.value);
-      if (!currentUserAccount) return;
-      calcDisplaybalance(currentUserAccount);
+  // Find account that matches the userName
+  currentUserAccount = accounts.find(user => user.owner === userName.value);
+  if (!currentUserAccount) return;
 
-      if (currentUserAccount?.pin === Number(userKey.value)) {
-        // Store user in localStorage
-        localStorage.setItem(
-          'loggedInUser',
-          JSON.stringify(currentUserAccount)
-        );
+  if (currentUserAccount?.pin === Number(userKey.value)) {
+    // Store user in localStorage
+    localStorage.setItem('loggedInUser', JSON.stringify(currentUserAccount));
 
-        displayTransactionLogs(currentUserAccount);
-        wellcomeText.textContent = `Welcome ${
-          currentUserAccount.owner.split(' ')[0]
-        }`;
-        document.body.classList.add('islogin'); // Add class to indicate login
-      } else {
-        userKey.classList.add('border-[1px]', 'border-red-400');
-      }
-    });
-  });
+    wellcomeText.textContent = `Welcome ${
+      currentUserAccount.owner.split(' ')[0]
+    }`;
+    document.body.classList.add('islogin'); // Add class to indicate login
+  } else {
+    userKey.classList.add('border-[1px]', 'border-red-400');
+  }
+  updateUI(currentUserAccount);
+
+  userName.value = userKey.value = '';
 }
 
 //// Auto-login on reload
 document.addEventListener('DOMContentLoaded', () => {
   const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
   if (loggedInUser) {
-    displayTransactionLogs(loggedInUser);
+    updateUI(loggedInUser);
     document.getElementById('logo-text').textContent = `Welcome ${
       loggedInUser.owner.split(' ')[0]
     }`;
@@ -124,18 +121,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-logIN();
-
 // log the user out
 function logOut() {
-  location.reload();
   localStorage.removeItem('loggedInUser');
   setTimeout(() => {
     document.body.classList.remove('islogin');
   }, 100);
+  wellcomeText.textContent = 'Log in to get started';
 }
 
-logOutButton.addEventListener('click', logOut);
+/**
+ * update all the ui when called
+ * @param {object} currentUser - the curent logged in user
+ */
+function updateUI(currentUser) {
+  displayTransactionLogs(currentUser);
+  calcDisplaybalance(currentUser);
+  calcDisplaySummary(currentUser);
+}
 
 /**
  * Display the transaction logs of the user.
@@ -228,34 +231,80 @@ function calcDisplaySummary(account) {
 
 /**
  * transfer money to the chosen user
+ * @param {event} e - the form to be submited
  */
+function transferMoney(e) {
+  e.preventDefault();
+  const inputUserName = e.target.querySelector('.user-name');
+  const inputAmout = e.target.querySelector('.amount');
 
+  const amount = Number(inputAmout.value);
+  const reciversAcc = accounts.find(user => user.owner === inputUserName.value);
 
-  const transferForm = document.querySelector('.transfer');
-  const inputUserName = transferForm.querySelector('.user-name');
-  const inputAmout = transferForm.querySelector('.amount');
+  inputAmout.value = inputUserName.value = '';
 
-  transferForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const amount = Number(inputAmout.value);
-    const reciversAcc = accounts.find(
-      user => user.owner === inputUserName.value
+  console.log(currentUserAccount);
+  if (
+    amount > 0 &&
+    amount <= currentUserAccount.balace &&
+    reciversAcc?.owner !== currentUserAccount.owner
+  ) {
+    currentUserAccount.movements.push(-amount);
+    reciversAcc.movements.push(amount);
+    updateUI(currentUserAccount);
+  }
+}
+
+/**
+ * load money to the user
+ * @param {event} e - the form to be submited
+ */
+function loanMoney(e) {
+  e.preventDefault();
+  const inputAmout = e.target.querySelector('.load-amount');
+  const amount = Number(inputAmout.value);
+  currentUserAccount?.movements.push(amount);
+  updateUI(currentUserAccount);
+  inputAmout.value = '';
+}
+
+/**
+ * delete the user account
+ * @param {event} e - the form to be submited
+ */
+function closeAccount(e) {
+  e.preventDefault();
+  const userName = e.target.querySelector('.user-name');
+  const userPin = e.target.querySelector('.user-pin');
+
+  // check if the username and pin matches the current account
+  if (
+    userName.value === currentUserAccount?.owner &&
+    Number(userPin.value) === currentUserAccount.pin
+  ) {
+    // find the index of the current account
+    const index = accounts.findIndex(
+      acc =>
+        acc.owner === currentUserAccount.owner &&
+        acc.pin === currentUserAccount.pin
     );
 
-    currentUserAccount = JSON.parse(localStorage.getItem('loggedInUser'));
+    accounts.splice(index, 1); // remove the current account from the array
+    document.body.classList.remove('islogin'); // hide the ui
+    wellcomeText.textContent = 'Log in to get started';
+  }
+  userName.value = userPin.value = '';
+}
 
-    inputAmout.value = inputUserName.value = '';
-    console.log(currentUserAccount);
+// event clicks
 
-    if (
-      amount > 0 &&
-      amount <= currentUserAccount.balace &&
-      reciversAcc?.owner !== currentUserAccount.owner
-    ) {
-      console.log('valid transaction');
-      console.log(amount);
-    }
-  });
+// Select both login forms
+loginForms.forEach(form => {
+  // Initialize login event listeners
+  form.addEventListener('submit', logIN);
+});
 
-
-// transferFund();
+logOutButton.addEventListener('click', logOut); // logout action
+transferForm.addEventListener('submit', transferMoney); // transfer money
+loanMoneyForm.addEventListener('submit', loanMoney); // loan money
+closeAccountForm.addEventListener('submit', closeAccount); // delete or close account
