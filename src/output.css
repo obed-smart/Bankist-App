@@ -1876,6 +1876,10 @@
     font-size: var(--text-xl);
     line-height: var(--tw-leading, var(--text-xl--line-height));
   }
+  .text-xs {
+    font-size: var(--text-xs);
+    line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
   .text-\[1\.2rem\] {
     font-size: 1.2rem;
   }
@@ -1979,6 +1983,9 @@
   .\[color\:red\]\/50\! {
     color: color-mix(in oklab, red 50%, transparent) !important;
   }
+  .text-\[\#66c873\] {
+    color: #66c873;
+  }
   .text-\[\#333\] {
     color: #333;
   }
@@ -1987,9 +1994,6 @@
   }
   .text-\[\#666\] {
     color: #666;
-  }
-  .text-\[\#66c873\] {
-    color: #66c873;
   }
   .text-\[\#888\] {
     color: #888;
@@ -2581,15 +2585,6 @@
       }
     }
   }
-  .max-md\:space-x-10 {
-    @media (width < 48rem) {
-      :where(& > :not(:last-child)) {
-        --tw-space-x-reverse: 0;
-        margin-inline-start: calc(calc(var(--spacing) * 10) * var(--tw-space-x-reverse));
-        margin-inline-end: calc(calc(var(--spacing) * 10) * calc(1 - var(--tw-space-x-reverse)));
-      }
-    }
-  }
   .max-md\:space-x-14 {
     @media (width < 48rem) {
       :where(& > :not(:last-child)) {
@@ -2703,11 +2698,6 @@
   .lg\:w-\[27rem\] {
     @media (width >= 64rem) {
       width: 27rem;
-    }
-  }
-  .lg\:justify-between {
-    @media (width >= 64rem) {
-      justify-content: space-between;
     }
   }
   .lg\:p-8 {
