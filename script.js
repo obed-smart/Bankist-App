@@ -450,7 +450,6 @@ const timer = setInterval(function() {
 }
 
 
-
 logOutButton.addEventListener('click', logOut); // logout action
 transferForm.addEventListener('submit', transferMoney); // transfer money
 loanMoneyForm.addEventListener('submit', loanMoney); // loan money
