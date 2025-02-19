@@ -426,6 +426,23 @@ loginForms.forEach(form => {
   form.addEventListener('submit', logIN);
 });
 
+function startTimer() {
+  const timer = 60;
+  const now = new Date().getTime();
+
+  const endTime = now + 60 * 1000;
+
+  const timeLeft = endTime - now; 
+
+  const min = Math.floor(timeLeft / 60);
+  const sec = Math.floor((timeLeft % 60));
+
+  console.log(min);
+  console.log(sec);
+}
+
+startTimer();
+
 logOutButton.addEventListener('click', logOut); // logout action
 transferForm.addEventListener('submit', transferMoney); // transfer money
 loanMoneyForm.addEventListener('submit', loanMoney); // loan money
