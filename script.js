@@ -9,6 +9,7 @@ const closeAccountForm = document.querySelector('.close-account');
 const loanMoneyForm = document.querySelector('.loan-money');
 const sortBtn = document.querySelector('.sort-btn');
 const currentTime = document.querySelectorAll('.current-time');
+const timetHolder = document.querySelector('.timer');
 
 // Data
 const account1 = {
@@ -123,7 +124,7 @@ openTransaction.addEventListener('click', e => {
  * @returns {object} - the user that matches the inputed name
  */
 
-let currentUserAccount; //declearing the current user account
+let currentUserAccount, timer; //declearing the current user account
 
 /**
  * login the user if the accout matches
@@ -142,6 +143,10 @@ function logIN(e) {
   if (currentUserAccount?.pin === Number(userKey.value)) {
     // Store user in localStorage
     localStorage.setItem('loggedInUser', JSON.stringify(currentUserAccount));
+    updateUI(currentUserAccount);
+
+    if (timer) clearInterval(timer);
+    timer = startTimer();
 
     wellcomeText.textContent = `Welcome ${
       currentUserAccount.owner.split(' ')[0]
@@ -150,7 +155,6 @@ function logIN(e) {
   } else {
     userKey.classList.add('border-[1px]', 'border-red-400');
   }
-  updateUI(currentUserAccount);
 
   userName.value = userKey.value = '';
 }
@@ -163,6 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('logo-text').textContent = `Welcome ${
       loggedInUser.owner.split(' ')[0]
     }`;
+    if (timer) clearInterval(timer);
+    timer = startTimer();
     document.body.classList.add('islogin');
   }
 });
@@ -174,6 +180,7 @@ function logOut() {
     document.body.classList.remove('islogin');
   }, 100);
   wellcomeText.textContent = 'Log in to get started';
+  if (timer) clearInterval(timer);
 }
 
 /**
@@ -184,7 +191,6 @@ function updateUI(currentUser) {
   displayTransactionLogs(currentUser);
   calcDisplaybalance(currentUser);
   calcDisplaySummary(currentUser);
-startTimer();
 }
 
 /**
@@ -359,6 +365,9 @@ function transferMoney(e) {
     currentUserAccount.movementsDates.push(new Date().toISOString()); // add transfer date
     reciversAcc.movementsDates.push(new Date().toISOString()); // add reciever date
     updateUI(currentUserAccount);
+
+    if (timer) clearInterval(timer);
+    timer = startTimer();
   }
 }
 
@@ -378,6 +387,7 @@ function loanMoney(e) {
     currentUserAccount?.movements.push(amount);
     currentUserAccount.movementsDates.push(new Date().toISOString()); // add load date
     updateUI(currentUserAccount);
+    startTimer();
   }
   inputAmout.value = '';
 }
@@ -427,29 +437,25 @@ loginForms.forEach(form => {
 });
 
 function startTimer() {
-  const timetHolder = document.querySelector(".timer")
-  const duration = 120;
-  const now = new Date().getTime();
+  let duration = 90;
 
-  const endTime = now + duration * 1000;
-  
-const timer = setInterval(function() {
-  const now = new Date().getTime()
-  const timeLeft = Math.max(0,(endTime - now) / 1000); 
+  function updateTimer() {
+    const min = String(Math.floor(duration / 60)).padStart(2, '0');
+    const sec = String(Math.floor(duration % 60)).padStart(2, '0');
 
-  const min = Math.floor(timeLeft / 60);
-  const sec = Math.floor(timeLeft % 60);
-  
-  timetHolder.textContent = `${min}:${sec}`
-  if(timeLeft <= 0){
-    clearInterval(timer);
-     document.body.classList.remove('islogin');
-     
+    timetHolder.textContent = `${min}:${sec}`;
+    if (duration <= 0) {
+      clearInterval(timer);
+      document.body.classList.remove('islogin');
+      localStorage.removeItem('loggedInUser');
+    }
+
+    duration--;
   }
-}, 1000);
+  updateTimer();
+
+  const timer = setInterval(updateTimer, 1000);
 }
-
-
 
 logOutButton.addEventListener('click', logOut); // logout action
 transferForm.addEventListener('submit', transferMoney); // transfer money
