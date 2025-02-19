@@ -184,6 +184,7 @@ function updateUI(currentUser) {
   displayTransactionLogs(currentUser);
   calcDisplaybalance(currentUser);
   calcDisplaySummary(currentUser);
+startTimer();
 }
 
 /**
@@ -306,7 +307,6 @@ function calcDisplaybalance(account) {
  */
 function calcDisplaySummary(account) {
   let { movements, interestRate } = account; // get the transaction and interestRate of the user account
-  const originalMove = [...movements]; // create another copy of the transaction login
 
   const moneyIn = document.querySelector('.fund-in');
   const moneyOut = document.querySelector('.fund-out');
@@ -427,21 +427,29 @@ loginForms.forEach(form => {
 });
 
 function startTimer() {
-  const timer = 60;
+  const timetHolder = document.querySelector(".timer")
+  const duration = 120;
   const now = new Date().getTime();
 
-  const endTime = now + 60 * 1000;
-
-  const timeLeft = endTime - now; 
+  const endTime = now + duration * 1000;
+  
+const timer = setInterval(function() {
+  const now = new Date().getTime()
+  const timeLeft = Math.max(0,(endTime - now) / 1000); 
 
   const min = Math.floor(timeLeft / 60);
-  const sec = Math.floor((timeLeft % 60));
-
-  console.log(min);
-  console.log(sec);
+  const sec = Math.floor(timeLeft % 60);
+  
+  timetHolder.textContent = `${min}:${sec}`
+  if(timeLeft <= 0){
+    clearInterval(timer);
+     document.body.classList.remove('islogin');
+     
+  }
+}, 1000);
 }
 
-startTimer();
+
 
 logOutButton.addEventListener('click', logOut); // logout action
 transferForm.addEventListener('submit', transferMoney); // transfer money
