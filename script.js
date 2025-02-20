@@ -119,10 +119,13 @@ openTransaction.addEventListener('click', e => {
   );
 });
 
-/**
- * check for the user and return one if found
- * @returns {object} - the user that matches the inputed name
- */
+// store the users accounts in the localStorage
+
+if (!localStorage.getItem('accounts')) {
+    localStorage.setItem('accounts', JSON.stringify(accounts));
+}
+ 
+
 
 let currentUserAccount, timer; //declearing the current user account
 
@@ -132,17 +135,21 @@ let currentUserAccount, timer; //declearing the current user account
  */
 function logIN(e) {
   e.preventDefault(); // Prevent default form submission
+  
+  const usersAccounts = JSON.parse(localStorage.getItem('accounts')) || [];
 
   const userName = e.target.querySelector('.user-name'); // Get username input
   const userKey = e.target.querySelector('.user-password'); // Get password input
 
   // Find account that matches the userName
-  currentUserAccount = accounts.find(user => user.owner === userName.value);
+  let user = usersAccounts.find(user => user.owner === userName.value);
   if (!currentUserAccount) return;
 
   if (currentUserAccount?.pin === Number(userKey.value)) {
+    currentUserAccount = user
     // Store user in localStorage
-    localStorage.setItem('loggedInUser', JSON.stringify(currentUserAccount));
+    localStorage.setItem('loggedInUser', JSON.stringify(currentUserAccount)) || [];
+    
     updateUI(currentUserAccount);
 
     if (timer) clearInterval(timer);
