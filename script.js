@@ -160,14 +160,15 @@ function logIN(e) {
 }
 
 //// Auto-login on reload
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
   if (loggedInUser) {
+    currentUserAccount = loggedInUser
     updateUI(loggedInUser);
     document.getElementById('logo-text').textContent = `Welcome ${
       loggedInUser.owner.split(' ')[0]
     }`;
-    if (timer) clearInterval(timer);
+    clearInterval(timer);
     timer = startTimer();
     document.body.classList.add('islogin');
   }
@@ -180,7 +181,8 @@ function logOut() {
     document.body.classList.remove('islogin');
   }, 100);
   wellcomeText.textContent = 'Log in to get started';
-  if (timer) clearInterval(timer);
+  
+clearInterval(timer);
 }
 
 /**
@@ -455,6 +457,7 @@ function startTimer() {
   updateTimer();
 
   const timer = setInterval(updateTimer, 1000);
+  return timer
 }
 
 logOutButton.addEventListener('click', logOut); // logout action
