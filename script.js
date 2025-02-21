@@ -14,7 +14,7 @@ const loginUserSelect = document.querySelector('.login-user');
 
 // Data
 const account1 = {
-  owner: 'js',
+  owner: 'Jonas Schmedtmann',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2,
   movementsDates: [
@@ -33,7 +33,7 @@ const account1 = {
 };
 
 const account2 = {
-  owner: 'jd',
+  owner: 'Jessica Davis',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   movementsDates: [

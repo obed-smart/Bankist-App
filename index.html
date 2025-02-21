@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="./src/output.css" />
     <title>Bankist</title>
   </head>
-  <body class="bg-[#f3f3f3] h-screen group font-display p-4 lg:p-8 text-[#444]">
+  <body
+    class="bg-[#f3f3f3] relative h-screen group font-display p-4 lg:p-8 text-[#444]"
+  >
     <!-- TOP NAVIGATION -->
     <nav class="flex select-none justify-between items-center">
       <div class="flex items-center justify-between max-md:w-full">
@@ -59,15 +61,16 @@
             &rarr;
           </button>
         </form>
-
-        <div class="flex absolute right-[20%] group-[&:where(.islogin)]:hidden">
-          <label for="login-acc" class="form__label"
-            >select Login Account:
-          </label>
-
-          <select onchange="updateLoginAcc()" id="login-acc" class="login-user">
-           <option value="">choose login Account</option>
-           
+        <div
+          class="absolute top-[50%]  left-[50%] translate-y-[-50%] max-[400px]:top-[60%] translate-x-[-50%] md:right-[40%] z-50 md:top-[40%] group-[&:where(.islogin)]:hidden"
+        >
+          <!-- <label for="login-acc">Login Details: </label> -->
+          <select
+            onchange="updateLoginAcc()"
+            id="login-acc"
+            class="login-user block  appearance-none rounded-md border-2 border-gray-300 bg-white py-2 px-3 text-xl  font-medium   text-gray-900 shadow-xl  focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" class="">choose login Account</option>
           </select>
         </div>
       </div>
@@ -95,7 +98,7 @@
       </button>
     </form>
     <main
-      class="w-full max-w-[1100px] opacity-0 group-[&:where(.islogin)]:opacity-100 mx-auto mt-10 pb-10"
+      class="w-full max-w-[1100px] pointer-events-none group-[&:where(.islogin)]:pointer-events-auto opacity-0 group-[&:where(.islogin)]:opacity-100 mx-auto mt-10 pb-10"
     >
       <!-- BALANCE -->
       <div
@@ -147,7 +150,7 @@
 
           <article
             id="logs"
-            class="bg-[#fff] transition-transform ease-linear origin-top MOVEMENTS  h-full rounded-2xl overflow-y-auto overflow-x-hidden"
+            class="bg-[#fff] transition-transform ease-linear origin-top MOVEMENTS h-full rounded-2xl overflow-y-auto overflow-x-hidden"
           ></article>
         </article>
 

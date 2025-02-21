@@ -32,10 +32,17 @@
   }
 
   .animateUP {
-    animation: scaleUp 0.5s ease forwards;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, opacity 0.3s ease-out;
   }
+
   .animateDown {
-    animation: scaleDown 0.5s ease;
+    max-height: 500px; 
+    opacity: 1;
+    overflow-y: hidden;
+    transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
   }
 }
 
