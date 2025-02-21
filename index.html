@@ -59,6 +59,16 @@
             &rarr;
           </button>
         </form>
+
+        <div class="flex absolute right-[20%] ">
+          <label for="login-acc" class="form__label"
+            >select Login Account:
+          </label>
+
+          <select onchange="updateLoginAcc()" id="login-acc" class="login-user">
+           
+          </select>
+        </div>
       </div>
     </nav>
 
@@ -152,10 +162,11 @@
               class="space-x-3 transfer max-md:flex-col space-y-4 flex items-start"
             >
               <div
-                class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
+                class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1 relative"
               >
                 <label class="form__label">Transfer to</label>
-                <input type="text" class="user-name" />
+                <input list="accounts" type="text" class="user-name" />
+                <datalist id="accounts" class="bg-red-600 suggest"></datalist>
               </div>
               <div
                 class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"

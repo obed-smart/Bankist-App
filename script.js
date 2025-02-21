@@ -10,6 +10,7 @@ const loanMoneyForm = document.querySelector('.loan-money');
 const sortBtn = document.querySelector('.sort-btn');
 const currentTime = document.querySelectorAll('.current-time');
 const timetHolder = document.querySelector('.timer');
+const loginUserSelect = document.querySelector('.login-user');
 
 // Data
 const account1 = {
@@ -559,6 +560,49 @@ function startTimer() {
   const timer = setInterval(updateTimer, 1000);
   return timer;
 }
+
+// auto show list of account
+
+function loadsuggestion() {
+  const select = document.querySelector('.suggest');
+
+  let option = document.createDocumentFragment();
+  accounts.forEach(item => {
+    option += `<option value="${item.owner}"></option>`;
+  });
+  select.innerHTML = option;
+}
+
+loadsuggestion();
+
+/**
+ *
+ */
+
+function loginUserAccount() {
+  let option = document.createDocumentFragment();
+  accounts.forEach(account => {
+    option += ` <option value="${account.owner}">${account.owner}</option>`;
+  });
+
+  loginUserSelect.innerHTML = option;
+}
+
+function updateLoginAcc() {
+  const userName = document.querySelectorAll('.user-name');
+  const userKey = document.querySelectorAll('.user-password');
+
+  userName.forEach(user => {
+    user.value = loginUserSelect.value;
+  });
+
+  userKey.forEach((user) => {
+  });
+}
+
+updateLoginAcc();
+
+loginUserAccount();
 
 logOutButton.addEventListener('click', logOut); // logout action
 transferForm.addEventListener('submit', transferMoney); // transfer money
