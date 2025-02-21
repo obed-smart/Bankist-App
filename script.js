@@ -72,7 +72,7 @@ const account3 = {
 
 const account4 = {
   owner: 'Sarah Smith',
-  movements: [430, 1000, 700, 50, 90],
+  movements: [430, 1000, 700, 50, 90,-20 , 200 , -100],
   interestRate: 1,
   movementsDates: [
     '2024-12-23T07:42:02.383Z',
@@ -593,22 +593,28 @@ function loginUserAccount() {
     option += ` <option value="${account.owner}">${account.owner}</option>`;
   });
 
-  loginUserSelect.innerHTML = option;
+  loginUserSelect.innerHTML += option;
 }
 
 function updateLoginAcc() {
   const userName = document.querySelectorAll('.user-login');
   const userKey = document.querySelectorAll('.user-login-pin');
-
-  userName.forEach(user => {
-    user.value = loginUserSelect.value;
+const pin = accounts.find(acc => acc.owner === loginUserSelect.value)
+    console.log(pin);
+    
+  userName.forEach((user,index) => {
+    
+    user.value = loginUserSelect ? loginUserSelect.value : "";
+    
+    if (userKey[index] ) {
+      userKey[index].value = pin.pin
+    }
+  
   });
 
-  userKey.forEach((user) => {
-  });
+  
 }
 
-updateLoginAcc();
 
 loginUserAccount();
 
