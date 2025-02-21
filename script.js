@@ -72,7 +72,7 @@ const account3 = {
 
 const account4 = {
   owner: 'Sarah Smith',
-  movements: [430, 1000, 700, 50, 90,-20 , 200 , -100],
+  movements: [430, 1000, 700, 50, 90, -20, 200, -100],
   interestRate: 1,
   movementsDates: [
     '2024-12-23T07:42:02.383Z',
@@ -287,15 +287,15 @@ function formatUserFunds(log, currency) {
 function displayTransactionLogs(account, sort = false) {
   const container = document.getElementById('logs');
   container.innerHTML = '';
-  const { movements , movementsDates} = account;
-  
+  const { movements, movementsDates } = account;
+
   let transactions = movements.map((mov, index) => ({
     amount: mov,
-    date: new Date(movementsDates[index])
+    date: new Date(movementsDates[index]),
   }));
-  
+
   if (sort) {
-    transactions.sort((a, b) => a.amount - b.amount)
+    transactions.sort((a, b) => a.amount - b.amount);
   }
 
   for (const [i, log] of transactions.entries()) {
@@ -380,7 +380,7 @@ function calcDisplaySummary(account) {
   // withdrawed money
   const withdrawal = movements
     .filter(num => num < 0, 0)
-    .reduce((total, num) => Math.abs(total + num), 0);
+    .reduce((total, num) => total + Math.abs(num), 0);
 
   //interest rate
   const interestRates = movements
@@ -481,7 +481,7 @@ function loanMoney(e) {
       loadTimer.style.display = 'none';
       e.target
         .querySelectorAll('input,button')
-        .forEach(item => (item.disabled = true));
+        .forEach(item => (item.disabled = false));
     }, 10000);
 
     clearInterval(timer);
@@ -599,22 +599,17 @@ function loginUserAccount() {
 function updateLoginAcc() {
   const userName = document.querySelectorAll('.user-login');
   const userKey = document.querySelectorAll('.user-login-pin');
-const pin = accounts.find(acc => acc.owner === loginUserSelect.value)
-    console.log(pin);
-    
-  userName.forEach((user,index) => {
-    
-    user.value = loginUserSelect ? loginUserSelect.value : "";
-    
-    if (userKey[index] ) {
-      userKey[index].value = pin.pin
+  const pin = accounts.find(acc => acc.owner === loginUserSelect.value);
+
+  userName.forEach((user, index) => {
+    user.value = loginUserSelect ? loginUserSelect.value : '';
+
+    if (userKey[index]) {
+      userKey[index].value = pin.pin;
     }
-  
   });
-
-  
+  loginUserSelect.value = '';
 }
-
 
 loginUserAccount();
 

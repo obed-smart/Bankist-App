@@ -588,9 +588,6 @@
   .top-\[50\%\] {
     top: 50%;
   }
-  .top-\[60\%\] {
-    top: 60%;
-  }
   .left-\[50\%\] {
     left: 50%;
   }
@@ -854,9 +851,6 @@
   }
   .min-h-screen {
     min-height: 100vh;
-  }
-  .w-1 {
-    width: calc(var(--spacing) * 1);
   }
   .w-1\/2 {
     width: calc(1/2 * 100%);
@@ -2630,16 +2624,6 @@
       top: 60%;
     }
   }
-  .max-\[350px\]\:top-\[60\%\] {
-    @media (width < 350px) {
-      top: 60%;
-    }
-  }
-  .max-\[0px\]\:top-\[60\%\] {
-    @media (width < 0px) {
-      top: 60%;
-    }
-  }
   .max-lg\:w-full {
     @media (width < 64rem) {
       width: 100%;
@@ -2945,7 +2929,7 @@
   .animateDown {
     max-height: 500px;
     opacity: 1;
-    overflow-y: hidden;
+    overflow-y: auto;
     transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
   }
 }
