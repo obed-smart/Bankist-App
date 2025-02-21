@@ -597,8 +597,8 @@ function loginUserAccount() {
 }
 
 function updateLoginAcc() {
-  const userName = document.querySelectorAll('.user-name');
-  const userKey = document.querySelectorAll('.user-password');
+  const userName = document.querySelectorAll('.user-login');
+  const userKey = document.querySelectorAll('.user-login-pin');
 
   userName.forEach(user => {
     user.value = loginUserSelect.value;
