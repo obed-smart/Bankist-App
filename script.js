@@ -287,32 +287,40 @@ function formatUserFunds(log, currency) {
 function displayTransactionLogs(account, sort = false) {
   const container = document.getElementById('logs');
   container.innerHTML = '';
-  const { movements } = account;
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const { movements , movementsDates} = account;
+  
+  let transactions = movements.map((mov, index) => ({
+    amount: mov,
+    date: new Date(movementsDates[index])
+  }));
+  
+  if (sort) {
+    transactions.sort((a, b) => a.amount - b.amount)
+  }
 
-  for (const [i, log] of movs.entries()) {
-    const date = new Date(account.movementsDates[i]); // get date from date array
+  for (const [i, log] of transactions.entries()) {
+    const date = new Date(movementsDates[i]); // get date from date array
 
-    const displayTime = formatedTransactionDate(date); // date to be deplayed on the page
+    const displayTime = formatedTransactionDate(log.date); // date to be deplayed on the page
 
     // dynamically format user money
-    const userMoney = formatUserFunds(log, account.currency);
+    const userMoney = formatUserFunds(log.amount, account.currency);
 
     const item = ` <div
               class="flex px-8 max-md:px-4 max-md:text-[14px] py-6 items-center justify-between border-b-[2px] border-b-[#eee]"
             >
               <div
                 class="uppercase  ${
-                  log > 0
+                  log.amount > 0
                     ? 'bg-linear-[to_top_left,#39b385,#9be15d]'
                     : 'bg-linear-[to_top_left,#e52a5a,#ff585f]'
                 } px-4 py-1 text-[#fff] rounded-full font-medium"
               >
-                ${log > 0 ? `${i + 1} deposit` : `${i + 1} withdrawal`}
+                ${log.amount > 0 ? `${i + 1} deposit` : `${i + 1} withdrawal`}
               </div>
               <div class="text-[#666]">${displayTime}</div>
               <div class=" font-medium ${
-                log > 0 ? 'text-green-500' : 'text-red-500'
+                log.amount > 0 ? 'text-green-500' : 'text-red-500'
               } ">${userMoney}</div>
             </div>`;
     container.insertAdjacentHTML('afterbegin', item);
