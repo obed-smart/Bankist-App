@@ -97,7 +97,7 @@
             Current balance
           </p>
           <p class="text-[#888] text-[1rem] max-md:hidden">
-            As of <span class=" current-time">05/03/2037</span>
+            As of <span class="current-time">05/03/2037</span>
           </p>
         </div>
         <div class="space-y-1">
@@ -108,7 +108,10 @@
           <p
             class="text-[#888] text-[1.2rem] max-md:text-[1rem] hidden max-md:block"
           >
-            As of <span class="text-xl max-md:text-[14px] current-time">05/03/2037</span>
+            As of
+            <span class="text-xl max-md:text-[14px] current-time"
+              >05/03/2037</span
+            >
           </p>
         </div>
       </div>
@@ -145,7 +148,9 @@
             class="operation max-md:px-5 bg-linear-[to_top_left,#ffb003,#ffcb03] rounded-3xl py-4 px-12"
           >
             <h2 class="text-xl font-medium mb-4">Transfer money</h2>
-            <form class="space-x-3 transfer max-md:flex-col space-y-4 flex items-start">
+            <form
+              class="space-x-3 transfer max-md:flex-col space-y-4 flex items-start"
+            >
               <div
                 class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
               >
@@ -175,6 +180,11 @@
             class="operation max-md:px-5 rounded-3xl py-6 px-12 bg-linear-[to_top_left,#39b385,#9be15d]"
           >
             <h2 class="text-xl font-medium mb-4">Request loan</h2>
+            <p
+              class="text-sm font-medium mb-2 text-[#f5465d] opacity-95 hidden loan-timer"
+            >
+              Approving loan in <span class="holder"></span>
+            </p>
             <form
               class="space-x-3 loan-money max-md:space-y-5 flex max-md:flex-col items-start"
             >
@@ -182,11 +192,7 @@
                 class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
               >
                 <label for="loan" class="w-full">Amount</label>
-                <input
-                  id="loan"
-                  type="number"
-                  class="load-amount"
-                />
+                <input id="loan" type="number" class="load-amount" />
               </div>
 
               <button
@@ -203,12 +209,14 @@
             class="operation max-md:px-5 bg-linear-[to_top_left,#e52a5a,#ff585f] rounded-3xl py-4 px-12"
           >
             <h2 class="text-xl font-medium mb-4">Close account</h2>
-            <form class="space-x-3 close-account flex max-md:flex-col space-y-5 items-start">
+            <form
+              class="space-x-3 close-account flex max-md:flex-col space-y-5 items-start"
+            >
               <div
                 class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
               >
                 <label class="form__label">Confirm user</label>
-                <input type="text" class=" user-name " />
+                <input type="text" class="user-name" />
               </div>
               <div
                 class="flex flex-col-reverse max-md:flex-col max-md:w-full gap-1"
@@ -219,7 +227,7 @@
                   min="0"
                   maxlength="4"
                   type="password"
-                  class="bg-[rgba(255,255,255,0.4)]  user-pin placeholder:text-[#bbb] border-0 focus:outline-0 focus:bg-[rgba(255,255,255,0.6)]"
+                  class="bg-[rgba(255,255,255,0.4)] user-pin placeholder:text-[#bbb] border-0 focus:outline-0 focus:bg-[rgba(255,255,255,0.6)]"
                 />
               </div>
               <button
@@ -234,10 +242,10 @@
 
       <section class="flex justify-between max-lg:flex-col w-full mt-4">
         <!-- SUMMARY -->
-        <div
-          class="flex  pt-5  max-md:flex-col-reverse md:flex-row md:gap-10"
-        >
-          <div class="flex  max-[500px]:flex-col max-[500px]:space-y-5  max-md:space-x-14 w-full md:gap-12">
+        <div class="flex pt-5 max-md:flex-col-reverse md:flex-row md:gap-10">
+          <div
+            class="flex max-[500px]:flex-col max-[500px]:space-y-5 max-md:space-x-14 w-full md:gap-12"
+          >
             <p class="space-x-1 max-[500px]:space-x-5">
               <span class="text-[1rem] uppercase font-semibold"> In</span>
               <span
@@ -260,7 +268,9 @@
             </p>
           </div>
 
-          <button class="cursor-pointer max-md:self-start mb-7 max-[500px]:text-xl sort-btn">
+          <button
+            class="cursor-pointer max-md:self-start mb-7 max-[500px]:text-xl sort-btn"
+          >
             &downarrow;SORT
           </button>
         </div>
@@ -271,8 +281,6 @@
         </p>
       </section>
     </main>
-
-
 
     <script
       type="module"

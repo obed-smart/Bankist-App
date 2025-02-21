@@ -122,10 +122,8 @@ openTransaction.addEventListener('click', e => {
 // store the users accounts in the localStorage
 
 if (!localStorage.getItem('accounts')) {
-    localStorage.setItem('accounts', JSON.stringify(accounts));
+  localStorage.setItem('accounts', JSON.stringify(accounts));
 }
- 
-
 
 let currentUserAccount, timer; //declearing the current user account
 
@@ -135,7 +133,7 @@ let currentUserAccount, timer; //declearing the current user account
  */
 function logIN(e) {
   e.preventDefault(); // Prevent default form submission
-  
+
   const usersAccounts = JSON.parse(localStorage.getItem('accounts')) || [];
 
   const userName = e.target.querySelector('.user-name'); // Get username input
@@ -143,13 +141,17 @@ function logIN(e) {
 
   // Find account that matches the userName
   let user = usersAccounts.find(user => user.owner === userName.value);
-  if (!currentUserAccount) return;
+  if (!user) {
+    alert('user account not found');
+    return;
+  }
 
-  if (currentUserAccount?.pin === Number(userKey.value)) {
-    currentUserAccount = user
+  if (user?.pin === Number(userKey.value)) {
+    currentUserAccount = user;
     // Store user in localStorage
-    localStorage.setItem('loggedInUser', JSON.stringify(currentUserAccount)) || [];
-    
+    localStorage.setItem('loggedInUser', JSON.stringify(currentUserAccount)) ||
+      [];
+
     updateUI(currentUserAccount);
 
     if (timer) clearInterval(timer);
@@ -170,8 +172,8 @@ function logIN(e) {
 window.addEventListener('load', () => {
   const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
   if (loggedInUser) {
-    currentUserAccount = loggedInUser
-    updateUI(loggedInUser);
+    currentUserAccount = loggedInUser;
+    updateUI(currentUserAccount);
     document.getElementById('logo-text').textContent = `Welcome ${
       loggedInUser.owner.split(' ')[0]
     }`;
@@ -188,8 +190,8 @@ function logOut() {
     document.body.classList.remove('islogin');
   }, 100);
   wellcomeText.textContent = 'Log in to get started';
-  
-clearInterval(timer);
+
+  clearInterval(timer);
 }
 
 /**
@@ -200,6 +202,40 @@ function updateUI(currentUser) {
   displayTransactionLogs(currentUser);
   calcDisplaybalance(currentUser);
   calcDisplaySummary(currentUser);
+}
+
+/**
+ * function to update the localstorage when ever a change in made my the user
+ */
+function updateLocalStorage(reciversAcc = null) {
+  localStorage.setItem('loggedInUser', JSON.stringify(currentUserAccount)); // update the user account
+
+  let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser')); // get the current user accout
+  let usersAccount = JSON.parse(localStorage.getItem('accounts')); // get all users accounts
+
+  if (!loggedInUser) return;
+
+  const curentUserIndex = usersAccount.findIndex(
+    user => user.owner === loggedInUser?.owner
+  );
+
+  let reciversUserIndex = -1;
+  if (reciversAcc) {
+    reciversUserIndex = usersAccount.findIndex(
+      user => user.owner === reciversAcc?.owner
+    );
+  }
+
+  if (curentUserIndex !== -1) {
+    usersAccount[curentUserIndex] = loggedInUser;
+
+    if (reciversAcc) {
+      if (reciversUserIndex !== -1)
+        usersAccount[reciversUserIndex] = reciversAcc;
+    }
+  }
+
+  localStorage.setItem('accounts', JSON.stringify(usersAccount));
 }
 
 /**
@@ -362,7 +398,6 @@ function transferMoney(e) {
 
   inputAmout.value = inputUserName.value = '';
 
-  console.log(currentUserAccount);
   if (
     amount > 0 &&
     amount <= currentUserAccount.balace &&
@@ -374,6 +409,7 @@ function transferMoney(e) {
     currentUserAccount.movementsDates.push(new Date().toISOString()); // add transfer date
     reciversAcc.movementsDates.push(new Date().toISOString()); // add reciever date
     updateUI(currentUserAccount);
+    updateLocalStorage(reciversAcc);
 
     if (timer) clearInterval(timer);
     timer = startTimer();
@@ -389,13 +425,57 @@ function loanMoney(e) {
   const inputAmout = e.target.querySelector('.load-amount');
   const amount = Number(inputAmout.value);
 
+  const loadTimer = document.querySelector('.loan-timer');
+  const timerHolder = loadTimer.querySelector('.holder');
+  let timers;
+
+  function loanTimer() {
+    let duration = 10;
+
+    // format the timer to display on the page
+    function updateTimer() {
+      const min = String(Math.floor(duration / 60)).padStart(2, '0');
+      const sec = String(Math.floor(duration % 60)).padStart(2, '0');
+
+      timerHolder.textContent = `${min}:${sec}`;
+      if (duration <= 0) {
+        clearInterval(loadTimer);
+      }
+
+      duration--;
+    }
+
+    updateTimer();
+    const loadTimer = setInterval(updateTimer, 1000);
+
+    return loadTimer;
+  }
+
+  timers = loanTimer();
   if (
     amount > 0 &&
     currentUserAccount.movements.some(mov => mov >= amount * 0.1)
   ) {
-    currentUserAccount?.movements.push(amount);
-    currentUserAccount.movementsDates.push(new Date().toISOString()); // add load date
-    updateUI(currentUserAccount);
+    loadTimer.style.display = 'block';
+    clearInterval(timers);
+    loanTimer();
+    e.target
+      .querySelectorAll('input,button')
+      .forEach(item => (item.disabled = true));
+
+    setTimeout(() => {
+      clearInterval(timers);
+      currentUserAccount?.movements.push(amount);
+      currentUserAccount.movementsDates.push(new Date().toISOString()); // add load date
+      updateUI(currentUserAccount);
+      updateLocalStorage();
+      loadTimer.style.display = 'none';
+      e.target
+        .querySelectorAll('input,button')
+        .forEach(item => (item.disabled = true));
+    }, 10000);
+
+    clearInterval(timer);
     startTimer();
   }
   inputAmout.value = '';
@@ -410,19 +490,32 @@ function closeAccount(e) {
   const userName = e.target.querySelector('.user-name');
   const userPin = e.target.querySelector('.user-pin');
 
+  const usersAccount = JSON.parse(localStorage.getItem('accounts')); // get all users accounts
+
   // check if the username and pin matches the current account
   if (
     userName.value === currentUserAccount?.owner &&
     Number(userPin.value) === currentUserAccount.pin
   ) {
     // find the index of the current account
-    const index = accounts.findIndex(
+    const mainIndex = accounts.findIndex(
       acc =>
         acc.owner === currentUserAccount.owner &&
         acc.pin === currentUserAccount.pin
     );
 
-    accounts.splice(index, 1); // remove the current account from the array
+    const logedAccountIndex = usersAccount.findIndex(
+      acc =>
+        acc.owner === currentUserAccount.owner &&
+        acc.pin === currentUserAccount.pin
+    );
+
+    // accounts.splice(mainIndex, 1); // remove the current account from the array
+    usersAccount.splice(logedAccountIndex, 1); // remove the current account from the localstorage
+    localStorage.removeItem('loggedInUser');
+
+    localStorage.setItem('accounts', JSON.stringify(usersAccount));
+
     document.body.classList.remove('islogin'); // hide the ui
     wellcomeText.textContent = 'Log in to get started';
   }
@@ -446,7 +539,7 @@ loginForms.forEach(form => {
 });
 
 function startTimer() {
-  let duration = 90;
+  let duration = 540;
 
   function updateTimer() {
     const min = String(Math.floor(duration / 60)).padStart(2, '0');
@@ -464,7 +557,7 @@ function startTimer() {
   updateTimer();
 
   const timer = setInterval(updateTimer, 1000);
-  return timer
+  return timer;
 }
 
 logOutButton.addEventListener('click', logOut); // logout action
