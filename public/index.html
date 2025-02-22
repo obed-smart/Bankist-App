@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="shortcut icon" type="image/png" href="./image/logo.png" />
+    <link rel="shortcut icon" type="image/png" href="../image/logo.png" />
 
     <link
       href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap"
@@ -23,13 +23,13 @@
         <p id="logo-text" class="text-xl font-medium">Log in to get started</p>
 
         <img
-          src="./image/logo.png"
+          src="../image/logo.png"
           alt="Logo"
           class="w-8 group-[&:where(.islogin)]:max-md:hidden md:hidden"
         />
       </div>
       <img
-        src="./image/logo.png"
+        src="../image/logo.png"
         alt="Logo"
         class="w-16 max-md:hidden group-[&:where(.islogin)]:max-md:hidden"
       />
@@ -62,13 +62,13 @@
           </button>
         </form>
         <div
-          class="absolute top-[50%]  left-[50%] translate-y-[-50%] max-[400px]:top-[60%] translate-x-[-50%] md:right-[40%] z-50 md:top-[40%] group-[&:where(.islogin)]:hidden"
+          class="absolute top-[50%] left-[50%] translate-y-[-50%] max-[400px]:top-[60%] translate-x-[-50%] md:right-[40%] z-50 md:top-[40%] group-[&:where(.islogin)]:hidden"
         >
           <!-- <label for="login-acc">Login Details: </label> -->
           <select
             onchange="updateLoginAcc()"
             id="login-acc"
-            class="login-user block  appearance-none rounded-md border-2 border-gray-300 bg-white py-2 px-3 text-xl  font-medium   text-gray-900 shadow-xl  focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="login-user block appearance-none rounded-md border-2 border-gray-300 bg-white py-2 px-3 text-xl font-medium text-gray-900 shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="" class="">choose login Account</option>
           </select>
