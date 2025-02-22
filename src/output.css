@@ -1993,17 +1993,17 @@
   .\[color\:red\]\/50\! {
     color: color-mix(in oklab, red 50%, transparent) !important;
   }
-  .text-\[\#666\] {
-    color: #666;
-  }
-  .text-\[\#66c873\] {
-    color: #66c873;
-  }
   .text-\[\#333\] {
     color: #333;
   }
   .text-\[\#444\] {
     color: #444;
+  }
+  .text-\[\#666\] {
+    color: #666;
+  }
+  .text-\[\#66c873\] {
+    color: #66c873;
   }
   .text-\[\#888\] {
     color: #888;
